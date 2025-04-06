@@ -1,0 +1,123 @@
+export const DAILY_SHARE_MOCK = [
+    {
+      id: 1,
+      content: '따뜻한 날씨에 기분이 좋아요!',
+      user: { name: '유진', avatarUrl: '', userType: '일반', timeAgo: '30분 전' },
+      emojis: { heart: 5, like: 2, pray: 0, sad: 0, celebrate: 1 },
+    },
+    {
+      id: 2,
+      content: '오늘 아침 산책 너무 상쾌했어요 ☀️',
+      user: { name: '지훈', avatarUrl: '', userType: '일반', timeAgo: '1시간 전' },
+      emojis: { heart: 8, like: 4, pray: 1, sad: 0, celebrate: 2 },
+    },
+    {
+      id: 3,
+      content: '비 오는 날엔 따뜻한 커피 한 잔이 최고죠 ☕️',
+      user: { name: '미정', avatarUrl: '', userType: '일반', timeAgo: '2시간 전' },
+      emojis: { heart: 3, like: 5, pray: 0, sad: 0, celebrate: 0 },
+    },
+    {
+      id: 4,
+      content: '오늘은 친구랑 맛있는 점심 먹었어요 😊',
+      user: { name: '태훈', avatarUrl: '', userType: '일반', timeAgo: '3시간 전' },
+      emojis: { heart: 10, like: 6, pray: 0, sad: 0, celebrate: 3 },
+    },
+    {
+      id: 5,
+      content: '고양이랑 하루 종일 뒹굴뒹굴~',
+      user: { name: '소연', avatarUrl: '', userType: '일반', timeAgo: '4시간 전' },
+      emojis: { heart: 12, like: 8, pray: 0, sad: 0, celebrate: 1 },
+    },
+    {
+      id: 6,
+      content: '도서관에서 조용히 책 읽는 하루 📚',
+      user: { name: '영수', avatarUrl: '', userType: '일반', timeAgo: '5시간 전' },
+      emojis: { heart: 6, like: 3, pray: 2, sad: 0, celebrate: 0 },
+    },
+    {
+      id: 7,
+      content: '요가하면서 마음의 평화를 느꼈어요 🙏',
+      user: { name: '하린', avatarUrl: '', userType: '일반', timeAgo: '6시간 전' },
+      emojis: { heart: 7, like: 5, pray: 3, sad: 0, celebrate: 1 },
+    },
+    {
+      id: 8,
+      content: '오늘 회사에서 칭찬받았어요! 뿌듯~',
+      user: { name: '경호', avatarUrl: '', userType: '직장인', timeAgo: '7시간 전' },
+      emojis: { heart: 11, like: 9, pray: 1, sad: 0, celebrate: 4 },
+    },
+    {
+      id: 9,
+      content: '햇살 좋은 베란다에서 커피 마시는 시간 💛',
+      user: { name: '지은', avatarUrl: '', userType: '일반', timeAgo: '8시간 전' },
+      emojis: { heart: 9, like: 4, pray: 0, sad: 0, celebrate: 2 },
+    },
+    {
+      id: 10,
+      content: '강아지랑 공원에서 산책했어요 🐶',
+      user: { name: '동혁', avatarUrl: '', userType: '일반', timeAgo: '9시간 전' },
+      emojis: { heart: 13, like: 7, pray: 0, sad: 0, celebrate: 3 },
+    },
+    {
+      id: 11,
+      content: '하늘이 너무 예뻐서 그냥 한참 쳐다봤어요 🌤',
+      user: { name: '은비', avatarUrl: '', userType: '일반', timeAgo: '10시간 전' },
+      emojis: { heart: 8, like: 6, pray: 0, sad: 0, celebrate: 1 },
+    },
+    {
+      id: 12,
+      content: '친구들과 소소한 저녁 식사했어요 🍽',
+      user: { name: '수민', avatarUrl: '', userType: '일반', timeAgo: '11시간 전' },
+      emojis: { heart: 10, like: 5, pray: 0, sad: 0, celebrate: 2 },
+    },
+    {
+      id: 13,
+      content: '퇴근길 노을이 정말 멋졌어요 🌇',
+      user: { name: '진우', avatarUrl: '', userType: '직장인', timeAgo: '12시간 전' },
+      emojis: { heart: 7, like: 8, pray: 0, sad: 0, celebrate: 2 },
+    },
+    {
+      id: 14,
+      content: '맛있는 디저트 먹고 기분 좋아졌어요 🍰',
+      user: { name: '지수', avatarUrl: '', userType: '일반', timeAgo: '13시간 전' },
+      emojis: { heart: 9, like: 6, pray: 1, sad: 0, celebrate: 1 },
+    },
+    {
+      id: 15,
+      content: '하루 종일 집콕하며 넷플릭스 정주행 🎬',
+      user: { name: '정민', avatarUrl: '', userType: '일반', timeAgo: '14시간 전' },
+      emojis: { heart: 14, like: 10, pray: 0, sad: 0, celebrate: 3 },
+    },
+    {
+      id: 16,
+      content: '산 정상에서 바라본 풍경이 정말 멋졌어요 ⛰️',
+      user: { name: '민재', avatarUrl: '', userType: '일반', timeAgo: '15시간 전' },
+      emojis: { heart: 11, like: 7, pray: 0, sad: 0, celebrate: 2 },
+    },
+    {
+      id: 17,
+      content: '햇살 가득한 카페에서 일했어요 ☕️',
+      user: { name: '혜진', avatarUrl: '', userType: '프리랜서', timeAgo: '16시간 전' },
+      emojis: { heart: 8, like: 5, pray: 1, sad: 0, celebrate: 1 },
+    },
+    {
+      id: 18,
+      content: '아침에 조깅하면서 기분이 상쾌했어요 🏃‍♀️',
+      user: { name: '윤호', avatarUrl: '', userType: '일반', timeAgo: '17시간 전' },
+      emojis: { heart: 7, like: 6, pray: 0, sad: 0, celebrate: 2 },
+    },
+    {
+      id: 19,
+      content: '하루 종일 비가 와서 차분한 하루였어요 🌧️',
+      user: { name: '나영', avatarUrl: '', userType: '일반', timeAgo: '18시간 전' },
+      emojis: { heart: 6, like: 3, pray: 1, sad: 1, celebrate: 0 },
+    },
+    {
+      id: 20,
+      content: '밤하늘에 별이 정말 많았어요 🌌',
+      user: { name: '시우', avatarUrl: '', userType: '일반', timeAgo: '19시간 전' },
+      emojis: { heart: 12, like: 5, pray: 0, sad: 0, celebrate: 2 },
+    },
+];
+  
