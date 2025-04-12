@@ -1,22 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { DAILY_SHARE_MOCK } from 'src/mock/daily_share.mock';
-import { DailyShareItem } from 'src/types/daily-share.type';
+import { InjectRepository } from '@nestjs/typeorm';
+// import { DAILY_SHARE_MOCK } from 'src/mock/daily_share.mock';
+// import { DailyShareItem } from 'src/types/daily-share.type';
+import { Repository } from 'typeorm';
+import { DailyShare } from './daily-share.entity';
 
 @Injectable()
 export class DailyShareService {
-  private shares: DailyShareItem[] = [...DAILY_SHARE_MOCK];
+  
+  constructor(
+    @InjectRepository(DailyShare)
+    // private shares: DailyShareItem[] = [...DAILY_SHARE_MOCK];
+    private readonly shareRepo: Repository<DailyShare>,
+  ) {}
 
-  findAll(): DailyShareItem[] {
-    return this.shares;
+  async findAll(): Promise<DailyShare[]> {
+    return this.shareRepo.find();
   }
 
-  findOne(id: number): DailyShareItem | undefined {
-    return this.shares.find((item) => item.id === id);
+  async findOne(id: number): Promise<DailyShare | null> {
+    return this.shareRepo.findOne({ where: { id } });
   }
 
-  create(data: Partial<DailyShareItem>): DailyShareItem {
-    const newPost: DailyShareItem = {
-      id: this.shares.length + 1,
+  async create(data: Partial<DailyShare>): Promise<DailyShare> {
+    const newPost = this.shareRepo.create({
       content: data.content ?? '',
       user: data.user ?? {
         name: '익명',
@@ -31,22 +38,23 @@ export class DailyShareService {
         sad: 0,
         celebrate: 0,
       },
-    };
-    this.shares.push(newPost);
-    return newPost;
+    });
+    return this.shareRepo.save(newPost);
   }
 
-  update(id: number, data: Partial<DailyShareItem>): DailyShareItem | null {
-    const index = this.shares.findIndex((item) => item.id === id);
-    if (index === -1) return null;
-    this.shares[index] = { ...this.shares[index], ...data };
-    return this.shares[index];
+  async update(id: number, data: Partial<DailyShare>): Promise<DailyShare | null> {
+    const post = await this.shareRepo.findOne({ where: { id } });
+    if (!post) return null;
+
+    const updated = Object.assign(post, data);
+    return this.shareRepo.save(updated);
   }
 
-  remove(id: number): DailyShareItem | null {
-    const index = this.shares.findIndex((item) => item.id === id);
-    if (index === -1) return null;
-    const deleted = this.shares.splice(index, 1);
-    return deleted[0];
+  async remove(id: number): Promise<DailyShare | null> {
+    const post = await this.shareRepo.findOne({ where: { id } });
+    if (!post) return null;
+
+    await this.shareRepo.remove(post);
+    return post;
   }
 }
