@@ -8,5 +8,6 @@ import { DailyShareController } from './daily-share.controller';
   imports: [TypeOrmModule.forFeature([DailyShare])],
   providers: [DailyShareService],
   controllers: [DailyShareController],
+  exports: [DailyShareService], // 하루공유 임시 데이터
 })
 export class DailyShareModule {}

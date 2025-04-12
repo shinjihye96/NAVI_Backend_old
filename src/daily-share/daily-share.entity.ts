@@ -18,10 +18,10 @@ export class DailyShare {
 
   @Column('simple-json')
   emojis: {
-    heart: number;
-    like: number;
-    pray: number;
-    sad: number;
-    celebrate: number;
+    heart: { icon: string; count: number };
+    like: { icon: string; count: number };
+    pray: { icon: string; count: number };
+    sad: { icon: string; count: number };
+    celebrate: { icon: string; count: number };
   };
 }
