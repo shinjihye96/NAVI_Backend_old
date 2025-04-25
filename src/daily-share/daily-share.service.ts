@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DAILY_SHARE_MOCK } from 'src/mock/daily_share.mock';
-// import { DailyShareItem } from 'src/types/daily-share.type';
-import { DeepPartial, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { DailyShare } from './daily-share.entity';
+import { CreateDailyShareDto } from './dto/create-daily-share.dto';
+import { UpdateDailyShareDto } from './dto/update-daily-share.dto';
 
 @Injectable()
 export class DailyShareService {
@@ -12,32 +12,22 @@ export class DailyShareService {
     private readonly shareRepo: Repository<DailyShare>,
   ) {}
 
-  async seedMockData(): Promise<void> {
-    const count = await this.shareRepo.count();
-    if (count === 0) {
-      await this.shareRepo.save(DAILY_SHARE_MOCK);
-      console.log('[Seed] Mock data inserted!');
-    } else {
-      console.log('[Seed] Data already exists. Skipping seed.');
-    }
+  findAll(): Promise<DailyShare[]> {
+    return this.shareRepo.find({ order: { createdAt: 'DESC' } });
   }
 
-  async findAll(): Promise<DailyShare[]> {
-    return this.shareRepo.find();
-  }
-
-  async findOne(id: number): Promise<DailyShare | null> {
+  findOne(id: number): Promise<DailyShare | null> {
     return this.shareRepo.findOne({ where: { id } });
   }
 
-  async create(data: Partial<DailyShare>): Promise<DailyShare> {
-    const newPost: DeepPartial<DailyShare> = {
-      content: data.content ?? '',
-      user: data.user ?? {
-        name: '익명',
-        avatarUrl: '',
-        userType: '일반',
-        timeAgo: '방금 전',
+  create(data: CreateDailyShareDto): Promise<DailyShare> {
+    const newShare = this.shareRepo.create({
+      ...data,
+      user: {
+        id: 1,
+        name: '지혜',
+        profileImage: '',
+        userType: '환자',
       },
       emojis: {
         heart: { icon: '💚', count: 0 },
@@ -45,27 +35,26 @@ export class DailyShareService {
         pray: { icon: '🙏', count: 0 },
         sad: { icon: '😢', count: 0 },
         celebrate: { icon: '🎉', count: 0 },
-      }      
-    };
-  
-    const created = this.shareRepo.create(newPost);
-    return this.shareRepo.save(created);
+      },
+      isFollowed: false,
+    });
+
+    return this.shareRepo.save(newShare);
   }
-  
 
-  async update(id: number, data: Partial<DailyShare>): Promise<DailyShare | null> {
-    const post = await this.shareRepo.findOne({ where: { id } });
-    if (!post) return null;
+  async update(id: number, data: UpdateDailyShareDto): Promise<DailyShare | null> {
+    const found = await this.shareRepo.findOne({ where: { id } });
+    if (!found) return null;
 
-    const updated = Object.assign(post, data);
+    const updated = this.shareRepo.merge(found, data);
     return this.shareRepo.save(updated);
   }
 
   async remove(id: number): Promise<DailyShare | null> {
-    const post = await this.shareRepo.findOne({ where: { id } });
-    if (!post) return null;
+    const found = await this.shareRepo.findOne({ where: { id } });
+    if (!found) return null;
 
-    await this.shareRepo.remove(post);
-    return post;
+    await this.shareRepo.remove(found);
+    return found;
   }
 }
