@@ -15,6 +15,8 @@ import {
   ApiParam,
   ApiBody,
 } from '@nestjs/swagger';
+import { CreateDailyShareDto } from './dto/create-daily-share.dto';
+import { UpdateDailyShareDto } from './dto/update-daily-share.dto';
 
 @ApiTags('DailyShare') // Swagger 상단의 태그로 그룹 묶기
 @Controller('daily-share')
@@ -37,19 +39,16 @@ export class DailyShareController {
   }
 
   @Post()
-  @ApiOperation({ summary: '게시글 생성', description: '새로운 하루공유 게시글을 생성합니다.' })
-  @ApiBody({ description: '게시글 내용', type: Object }) // DTO가 있다면 그걸 넣는 게 좋아
-  @ApiResponse({ status: 201, description: '생성 성공' })
-  create(@Body() body: any) {
+  @ApiOperation({ summary: '게시글 생성' })
+  @ApiBody({ type: CreateDailyShareDto })
+  create(@Body() body: CreateDailyShareDto) {
     return this.dailyShareService.create(body);
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: '게시글 수정', description: '기존 게시글을 수정합니다.' })
-  @ApiParam({ name: 'id', type: Number })
-  @ApiBody({ description: '수정 내용', type: Object }) // DTO 대체 가능
-  @ApiResponse({ status: 200, description: '수정 성공' })
-  update(@Param('id') id: string, @Body() body: any) {
+  @ApiOperation({ summary: '게시글 수정' })
+  @ApiBody({ type: UpdateDailyShareDto })
+  update(@Param('id') id: string, @Body() body: UpdateDailyShareDto) {
     return this.dailyShareService.update(Number(id), body);
   }
 
