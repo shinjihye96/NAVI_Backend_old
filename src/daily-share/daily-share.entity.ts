@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class DailyShare {
@@ -6,14 +6,23 @@ export class DailyShare {
   id: number;
 
   @Column()
+  moodStep: number; // 오늘의 기분 (1~5단계)
+
+  @Column()
   content: string;
+
+  @Column({ nullable: true })
+  image?: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   @Column('simple-json')
   user: {
+    id: number;
     name: string;
-    avatarUrl: string;
-    userType: string;
-    timeAgo: string;
+    profileImage: string;
+    userType: '환자' | '보호자';
   };
 
   @Column('simple-json')
@@ -24,4 +33,7 @@ export class DailyShare {
     sad: { icon: string; count: number };
     celebrate: { icon: string; count: number };
   };
+
+  @Column({ default: false })
+  isFollowed: boolean;
 }
