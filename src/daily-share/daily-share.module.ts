@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DailyShare } from './daily-share.entity';
-import { DailyShareService } from './daily-share.service';
 import { DailyShareController } from './daily-share.controller';
+import { DailyShareService } from './daily-share.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([DailyShare])],
-  providers: [DailyShareService],
   controllers: [DailyShareController],
-  exports: [DailyShareService], // 하루공유 임시 데이터
+  providers: [DailyShareService],
+  exports: [DailyShareService], // seed나 main.ts에서 사용할 수도 있으니 export 추가
 })
 export class DailyShareModule {}
