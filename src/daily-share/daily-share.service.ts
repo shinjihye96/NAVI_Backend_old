@@ -20,9 +20,11 @@ export class DailyShareService {
     return this.shareRepo.findOne({ where: { id } });
   }
 
-  create(data: CreateDailyShareDto): Promise<DailyShare> {
+  async create(data: CreateDailyShareDto): Promise<DailyShare> {
     const newShare = this.shareRepo.create({
-      ...data,
+      moodStep: data.moodStep,
+      content: data.content,
+      image: data.image,
       user: {
         id: 1,
         name: '지혜',
