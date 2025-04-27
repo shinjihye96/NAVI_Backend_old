@@ -6,6 +6,7 @@ import { CreateDailyShareDto } from './dto/create-daily-share.dto';
 import { UpdateDailyShareDto } from './dto/update-daily-share.dto';
 import { getDailyGreeting } from './get-daily-greeting';
 import { MoodType } from './mood-type.enum';
+import { ShareStatus } from './share-status.enum';
 
 @Injectable()
 export class DailyShareService {
@@ -78,12 +79,24 @@ export class DailyShareService {
       : { id: USER_ID, name: '익명', profileImage: '' };
 
     // 3) 내 게시글 배열
-    const posts = mine.map((s) => ({
-      moodStep: s.moodStep,
-      content:  s.content,
-      image:    s.image,
-      createdAt: s.createdAt,
+    const posts = mine.map(s => ({
+      moodStep: s.moodStep ?? '', // enum|string
+      content: s.content ?? '', // string
+      image: s.image ?? '', // string
+      createdAt: s.createdAt ? s.createdAt.toISOString() : '', // ISO 문자열
     }));
+
+    // 상태 계산 (3가지)
+    let status: ShareStatus;
+    if (!posts.length) {
+      status = ShareStatus.NONE;
+    } else {
+      const lastDate = new Date(posts[0].createdAt).toDateString();
+      const today    = new Date().toDateString();
+      status = lastDate === today
+        ? ShareStatus.WEATHER_ONLY
+        : ShareStatus.COMPLETED;
+    }
 
     // 4) 하루 인사 메시지
     const latestMood = posts[0]?.moodStep ?? MoodType.SUN;
