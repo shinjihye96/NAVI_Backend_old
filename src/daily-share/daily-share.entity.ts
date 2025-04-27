@@ -1,12 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { MoodType } from './mood-type.enum';
 
 @Entity()
 export class DailyShare {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  moodStep: number; // 오늘의 기분 (1~5단계)
+  @Column({ // 오늘의 기분 (1~5단계)
+    type: 'text',
+    enum: MoodType,
+  })
+  moodStep: MoodType;
 
   @Column()
   content: string;
