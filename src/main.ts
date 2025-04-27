@@ -2,9 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { join } from 'path';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // 모든 컨트롤러의 body, query, param에 들어오는 데이터를 자동으로 검증,가공해줌
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   console.log('🗄️ DB 파일 위치:', join(__dirname, '..', 'local-dev.sqlite'));
   console.log('📂 현재 작업 디렉터리:', process.cwd());
