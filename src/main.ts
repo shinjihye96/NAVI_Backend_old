@@ -1,9 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  console.log('🗄️ DB 파일 위치:', join(__dirname, '..', 'local-dev.sqlite'));
+  console.log('📂 현재 작업 디렉터리:', process.cwd());
 
   // ✅ Swagger 설정
   const config = new DocumentBuilder() // 문서 정보 세팅팅
