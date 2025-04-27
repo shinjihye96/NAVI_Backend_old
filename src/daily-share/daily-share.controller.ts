@@ -23,6 +23,7 @@ import { UpdateDailyShareDto } from './dto/update-daily-share.dto';
 export class DailyShareController {
   constructor(private readonly dailyShareService: DailyShareService) {}
 
+  // 하루공유 게시글 관련
   @Get()
   @ApiOperation({ summary: '전체 게시글 조회', description: '전체 게시글 목록을 가져옵니다.' })
   @ApiResponse({ status: 200, description: '조회 성공' })
@@ -59,4 +60,13 @@ export class DailyShareController {
   remove(@Param('id') id: string) {
     return this.dailyShareService.remove(Number(id));
   }
+
+  // 내 기분만 조회
+  @Get('me')
+  @ApiOperation({ summary: '내 기분 조회' })
+  @ApiResponse({ status: 200, description: '프로필·게시글·메시지 반환' })
+  getMyShare() {
+    return this.dailyShareService.findMyShare();
+  }
+
 }
