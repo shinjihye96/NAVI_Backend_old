@@ -76,20 +76,20 @@ export class DailyShareService {
           name: mine[0].user.name,
           profileImage: mine[0].user.profileImage,
         }
-      : { id: USER_ID, name: '익명', profileImage: '' };
+      : { id: USER_ID, name: 'NAVI', profileImage: '' };
 
-      const todayStr    = new Date().toDateString();
-      const todayPosts  = mine
+      const todayStr = new Date().toDateString();
+      const todayPosts = mine
         .map(s => ({
-          moodStep:  s.moodStep,
-          content:   s.content   ?? '',
-          image:     s.image     ?? '',
+          moodStep: s.moodStep,
+          content: s.content ?? '',
+          image: s.image ?? '',
           createdAt: s.createdAt?.toISOString() ?? '',
         }))
         .filter(p => new Date(p.createdAt).toDateString() === todayStr);
     
       // 상태 판정
-      let status: ShareStatus;
+      let status: ShareStatus = ShareStatus.NONE;
       if (todayPosts.length === 0) {
         status = ShareStatus.NONE;
       } else if (todayPosts[0].content === '') {
@@ -99,42 +99,45 @@ export class DailyShareService {
       }
 
     // posts 배열을 status별로 구성
-    let posts: Array<{ moodStep?: string; content: string; image: string; createdAt: string }>;
+    let post: {
+      moodStep: string;
+      content: string;
+      image: string;
+      createdAt: string;
+    };
+
     switch (status) {
       case ShareStatus.NONE:
-        posts = [{
-          moodStep: '',          // ← 여기에 빈 문자열을 추가
+        post = {
+          moodStep: '',
           content: '',
           image: '',
           createdAt: '',
-        }];
+        };
         break;
-
+  
       case ShareStatus.WEATHER_ONLY:
-        posts = [{
-          moodStep: todayPosts[0].moodStep,
+        post = {
+          moodStep: todayPosts[0].moodStep!,
           content: '',
           image: '',
-          createdAt: todayPosts[0].createdAt,
-        }];
+          createdAt: todayPosts[0].createdAt!,
+        };
         break;
-
+  
       case ShareStatus.COMPLETED:
-        posts = [{
-          moodStep: '', // 등록 완료 시에도 필요 없으면 빈 문자열
-          content: todayPosts[0].content,
-          image: todayPosts[0].image,
-          createdAt: todayPosts[0].createdAt,
-        }];
+        post = {
+          moodStep: todayPosts[0].moodStep!,
+          content: todayPosts[0].content!,
+          image: todayPosts[0].image!,
+          createdAt: todayPosts[0].createdAt!,
+        };
         break;
     }
 
     // 4) 하루 인사 메시지
-    const latestMood = status === ShareStatus.WEATHER_ONLY
-    ? todayPosts[0].moodStep
-    : MoodType.SUN;
-    const message = getDailyGreeting(latestMood);
+    const message = post.moodStep ? getDailyGreeting(post.moodStep as MoodType) : '';
 
-    return { profile, posts, message };
+    return { profile, post, message, status };
   }
 }

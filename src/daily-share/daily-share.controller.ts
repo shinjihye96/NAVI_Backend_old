@@ -17,6 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateDailyShareDto } from './dto/create-daily-share.dto';
 import { UpdateDailyShareDto } from './dto/update-daily-share.dto';
+import { MyShareResponseDto } from './dto/my-share-response.dto';
 
 @ApiTags('DailyShare') // Swagger 상단의 태그로 그룹 묶기
 @Controller('daily-share')
@@ -26,8 +27,12 @@ export class DailyShareController {
   // 내 기분만 조회
   @Get('me')
   @ApiOperation({ summary: '내 기분 조회' })
-  @ApiResponse({ status: 200, description: '프로필·게시글·메시지 반환' })
-  getMyShare() {
+  @ApiResponse({
+    status: 200,
+    description: '프로필·게시글·메시지·상태 반환',
+    type: MyShareResponseDto,
+  })
+  getMyShare(): Promise<MyShareResponseDto> {
     return this.dailyShareService.findMyShare();
   }
 
