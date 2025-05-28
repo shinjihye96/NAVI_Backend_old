@@ -63,32 +63,40 @@ export class DailyShareService {
     return found;
   }
 
-  private getMoodAssets(moodStep: string | null) {
-    switch (moodStep) {
-      case 'SUNNY':
+  private getMoodAssets(moodStep: MoodType | null) {
+    const baseUrl = 'http://localhost:3000/static';
+
+     switch (moodStep) {
+      case MoodType.SUN:
         return {
-          backgroundImage: 'https://yourcdn.com/backgrounds/sunny.png',
-          icon: 'https://yourcdn.com/icons/sun.svg',
+          backgroundImage: `${baseUrl}/backgrounds/Sun.jpg`,
+          icon:            `${baseUrl}/icons/Sun.jpg`,
         };
-      case 'CLOUDY':
+      case MoodType.SUN_AND_CLOUD:
         return {
-          backgroundImage: 'https://yourcdn.com/backgrounds/cloudy.png',
-          icon: 'https://yourcdn.com/icons/cloud.svg',
+          backgroundImage: `${baseUrl}/backgrounds/Sun_and_Cloud.jpg`,
+          icon: `${baseUrl}/icons/Sun_and_Cloud.jpg`,
         };
-      case 'RAINY':
+      case MoodType.CLOUD:
         return {
-          backgroundImage: 'https://yourcdn.com/backgrounds/rainy.png',
-          icon: 'https://yourcdn.com/icons/rain.svg',
+          backgroundImage: `${baseUrl}/backgrounds/Cloud.jpg`,
+          icon: `${baseUrl}/icons/Cloud.jpg`,
         };
-      case 'LIGHTNING':
+      case MoodType.RAIN:
         return {
-          backgroundImage: 'https://yourcdn.com/backgrounds/lightning.png',
-          icon: 'https://yourcdn.com/icons/lightning.svg',
+          backgroundImage: `${baseUrl}/backgrounds/Rain.jpg`,
+          icon: `${baseUrl}/icons/Rain.jpg`,
+        };
+      case MoodType.STORM:
+        return {
+          backgroundImage: `${baseUrl}/backgrounds/Lightning.jpg`,
+          icon: `${baseUrl}/icons/Lightning.jpg`,
         };
       default:
+        // moodStep이 null이거나 알 수 없는 값일 때
         return {
-          backgroundImage: '',
-          icon: '',
+          backgroundImage: `${baseUrl}/backgrounds/None.jpg`,
+          icon: `${baseUrl}/icons/None.jpg`,
         };
     }
   }
@@ -167,7 +175,7 @@ export class DailyShareService {
 
     // 4) 하루 인사 메시지
     const message = post.moodStep ? getDailyGreeting(post.moodStep as MoodType) : '';
-    const moodAssets = this.getMoodAssets(post.moodStep);
+    const moodAssets = this.getMoodAssets(post.moodStep as MoodType | null);
 
     return { profile, post, message, status, moodAssets };
   }
