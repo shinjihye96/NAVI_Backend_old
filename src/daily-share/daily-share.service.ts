@@ -63,6 +63,44 @@ export class DailyShareService {
     return found;
   }
 
+  private getMoodAssets(moodStep: MoodType | null) {
+    const baseUrl = 'http://localhost:3000/static';
+
+     switch (moodStep) {
+      case MoodType.SUN:
+        return {
+          backgroundImage: `${baseUrl}/backgrounds/Sun.jpg`,
+          icon:            `${baseUrl}/icons/Sun.jpg`,
+        };
+      case MoodType.SUN_AND_CLOUD:
+        return {
+          backgroundImage: `${baseUrl}/backgrounds/Sun_and_Cloud.jpg`,
+          icon: `${baseUrl}/icons/Sun_and_Cloud.jpg`,
+        };
+      case MoodType.CLOUD:
+        return {
+          backgroundImage: `${baseUrl}/backgrounds/Cloud.jpg`,
+          icon: `${baseUrl}/icons/Cloud.jpg`,
+        };
+      case MoodType.RAIN:
+        return {
+          backgroundImage: `${baseUrl}/backgrounds/Rain.jpg`,
+          icon: `${baseUrl}/icons/Rain.jpg`,
+        };
+      case MoodType.STORM:
+        return {
+          backgroundImage: `${baseUrl}/backgrounds/Lightning.jpg`,
+          icon: `${baseUrl}/icons/Lightning.jpg`,
+        };
+      default:
+        // moodStep이 null이거나 알 수 없는 값일 때
+        return {
+          backgroundImage: `${baseUrl}/backgrounds/None.jpg`,
+          icon: `${baseUrl}/icons/None.jpg`,
+        };
+    }
+  }
+
   async findMyShare() {
     const USER_ID = 1; // 로그인된 유저 ID를 실제론 토큰에서 꺼냄
     // 1) 전체를 조회해, 내 것만 필터
@@ -137,7 +175,8 @@ export class DailyShareService {
 
     // 4) 하루 인사 메시지
     const message = post.moodStep ? getDailyGreeting(post.moodStep as MoodType) : '';
+    const moodAssets = this.getMoodAssets(post.moodStep as MoodType | null);
 
-    return { profile, post, message, status };
+    return { profile, post, message, status, moodAssets };
   }
 }
