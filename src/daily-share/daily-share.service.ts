@@ -63,6 +63,36 @@ export class DailyShareService {
     return found;
   }
 
+  private getMoodAssets(moodStep: string | null) {
+    switch (moodStep) {
+      case 'SUNNY':
+        return {
+          backgroundImage: 'https://yourcdn.com/backgrounds/sunny.png',
+          icon: 'https://yourcdn.com/icons/sun.svg',
+        };
+      case 'CLOUDY':
+        return {
+          backgroundImage: 'https://yourcdn.com/backgrounds/cloudy.png',
+          icon: 'https://yourcdn.com/icons/cloud.svg',
+        };
+      case 'RAINY':
+        return {
+          backgroundImage: 'https://yourcdn.com/backgrounds/rainy.png',
+          icon: 'https://yourcdn.com/icons/rain.svg',
+        };
+      case 'LIGHTNING':
+        return {
+          backgroundImage: 'https://yourcdn.com/backgrounds/lightning.png',
+          icon: 'https://yourcdn.com/icons/lightning.svg',
+        };
+      default:
+        return {
+          backgroundImage: '',
+          icon: '',
+        };
+    }
+  }
+
   async findMyShare() {
     const USER_ID = 1; // 로그인된 유저 ID를 실제론 토큰에서 꺼냄
     // 1) 전체를 조회해, 내 것만 필터
@@ -137,7 +167,8 @@ export class DailyShareService {
 
     // 4) 하루 인사 메시지
     const message = post.moodStep ? getDailyGreeting(post.moodStep as MoodType) : '';
+    const moodAssets = this.getMoodAssets(post.moodStep);
 
-    return { profile, post, message, status };
+    return { profile, post, message, status, moodAssets };
   }
 }
