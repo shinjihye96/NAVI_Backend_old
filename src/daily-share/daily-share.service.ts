@@ -7,7 +7,11 @@ import { UpdateDailyShareDto } from './dto/update-daily-share.dto';
 import { getDailyGreeting } from './get-daily-greeting';
 import { MoodType } from './mood-type.enum';
 import { ShareStatus } from './share-status.enum';
-import { DAILY_SHARE_MOCK } from '../mock/daily_share.mock';
+
+type EmojiItem = { type: string; icon: string; count: number };
+type DailyShareWithEmojiArray = Omit<DailyShare, 'emojis'> & {
+  emojis: EmojiItem[];
+};
 
 @Injectable()
 export class DailyShareService {
@@ -16,44 +20,20 @@ export class DailyShareService {
     private readonly shareRepo: Repository<DailyShare>,
   ) {}
 
-  findAll(): Promise<DailyShare[]> {
-    return this.shareRepo.find({ order: { createdAt: 'DESC' } });
-  }
+  async findAll(): Promise<DailyShareWithEmojiArray[]> {
+  const shares = await this.shareRepo.find({ order: { createdAt: 'DESC' } });
+  return shares.map(share => ({
+    ...share,
+    emojis: Object.entries(share.emojis).map(
+      ([type, { icon, count }]) => ({ type, icon, count }),
+    ),
+  }));
+}
+
 
   findOne(id: number): Promise<DailyShare | null> {
     return this.shareRepo.findOne({ where: { id } });
   }
-
-  // 임시 데이터터
-  async insertMockData() {
-  const existing = await this.shareRepo.count();
-  if (existing > 0) {
-    console.log('⚠️ 이미 데이터가 존재하여 mock 데이터를 삽입하지 않습니다.');
-    return;
-  }
-
-  // ① DeepPartial<DailyShare>[] 타입으로 DTO 배열 생성
-  const dtos: DeepPartial<DailyShare>[] = DAILY_SHARE_MOCK.map(item => ({
-    moodStep: item.moodStep,
-    content: item.content,
-    image: item.img,
-    user: {
-      id: 1,
-      name: item.user.name,
-      profileImage: item.user.profileImg,
-      userType: item.user.userType  as '환자' | '보호자',
-    },
-    emojis: item.emojis,
-    isFollowed: item.isFollowed,
-  }));
-
-  // ② 배열 오버로드를 타도록 한 번에 넘기기
-  const entities = this.shareRepo.create(dtos);
-
-  // ③ 저장
-  await this.shareRepo.save(entities);
-  console.log('✅ mock 데이터가 성공적으로 삽입되었습니다.');
-}
 
   async create(data: CreateDailyShareDto): Promise<DailyShare> {
     const newShare = this.shareRepo.create({
@@ -66,17 +46,19 @@ export class DailyShareService {
         profileImage: '',
         userType: '환자',
       },
-      emojis: {
-        heart: { icon: '💚', count: 0 },
-        like: { icon: '👍', count: 0 },
-        pray: { icon: '🙏', count: 0 },
-        sad: { icon: '😢', count: 0 },
-        celebrate: { icon: '🎉', count: 0 },
-      },
+      emojis: [
+        { type: 'heart',     icon: '💚', count: 0 },
+        { type: 'like',      icon: '👍', count: 0 },
+        { type: 'pray',      icon: '🙏', count: 0 },
+        { type: 'sad',       icon: '😢', count: 0 },
+        { type: 'celebrate', icon: '🎉', count: 0 },
+      ],
       isFollowed: false,
     });
 
-    return this.shareRepo.save(newShare);
+    const saved = await this.shareRepo.save(newShare);
+
+    return saved;
   }
 
   async update(id: number, data: UpdateDailyShareDto): Promise<DailyShare | null> {
