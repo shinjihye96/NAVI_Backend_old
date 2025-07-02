@@ -22,4 +22,8 @@
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## AI랑 같이 Backend 구현하기
-[관련 내용]https://rich-yumberry-c88.notion.site/AI-Backend-1e0b35afb40b805aa6aff1d14ebe36bf?pvs=4
+[관련 내용] https://rich-yumberry-c88.notion.site/AI-Backend-1e0b35afb40b805aa6aff1d14ebe36bf?pvs=4
+
+-----
+
+# 소아암 환우 커뮤니티 서비스 | NAVI BackEnd
