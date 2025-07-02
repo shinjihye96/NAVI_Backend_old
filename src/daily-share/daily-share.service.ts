@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { DailyShare } from './daily-share.entity';
 import { CreateDailyShareDto } from './dto/create-daily-share.dto';
 import { UpdateDailyShareDto } from './dto/update-daily-share.dto';
 import { getDailyGreeting } from './get-daily-greeting';
 import { MoodType } from './mood-type.enum';
 import { ShareStatus } from './share-status.enum';
+import { DAILY_SHARE_MOCK } from '../mock/daily_share.mock';
 
 @Injectable()
 export class DailyShareService {
@@ -22,6 +23,37 @@ export class DailyShareService {
   findOne(id: number): Promise<DailyShare | null> {
     return this.shareRepo.findOne({ where: { id } });
   }
+
+  // 임시 데이터터
+  async insertMockData() {
+  const existing = await this.shareRepo.count();
+  if (existing > 0) {
+    console.log('⚠️ 이미 데이터가 존재하여 mock 데이터를 삽입하지 않습니다.');
+    return;
+  }
+
+  // ① DeepPartial<DailyShare>[] 타입으로 DTO 배열 생성
+  const dtos: DeepPartial<DailyShare>[] = DAILY_SHARE_MOCK.map(item => ({
+    moodStep: item.moodStep,
+    content: item.content,
+    image: item.img,
+    user: {
+      id: 1,
+      name: item.user.name,
+      profileImage: item.user.profileImg,
+      userType: item.user.userType  as '환자' | '보호자',
+    },
+    emojis: item.emojis,
+    isFollowed: item.isFollowed,
+  }));
+
+  // ② 배열 오버로드를 타도록 한 번에 넘기기
+  const entities = this.shareRepo.create(dtos);
+
+  // ③ 저장
+  await this.shareRepo.save(entities);
+  console.log('✅ mock 데이터가 성공적으로 삽입되었습니다.');
+}
 
   async create(data: CreateDailyShareDto): Promise<DailyShare> {
     const newShare = this.shareRepo.create({
@@ -70,7 +102,7 @@ export class DailyShareService {
       case MoodType.SUN:
         return {
           backgroundImage: `${baseUrl}/backgrounds/Sun.jpg`,
-          icon:            `${baseUrl}/icons/Sun.jpg`,
+          icon: `${baseUrl}/icons/Sun.jpg`,
         };
       case MoodType.SUN_AND_CLOUD:
         return {
