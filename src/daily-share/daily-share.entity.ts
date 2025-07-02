@@ -30,13 +30,7 @@ export class DailyShare {
   };
 
   @Column('simple-json')
-  emojis: {
-    heart: { icon: string; count: number };
-    like: { icon: string; count: number };
-    pray: { icon: string; count: number };
-    sad: { icon: string; count: number };
-    celebrate: { icon: string; count: number };
-  };
+  emojis: { type: string; icon: string; count: number }[]
 
   @Column({ default: false })
   isFollowed: boolean;
