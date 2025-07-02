@@ -70,7 +70,7 @@ export class DailyShareService {
       case MoodType.SUN:
         return {
           backgroundImage: `${baseUrl}/backgrounds/Sun.jpg`,
-          icon:            `${baseUrl}/icons/Sun.jpg`,
+          icon: `${baseUrl}/icons/Sun.jpg`,
         };
       case MoodType.SUN_AND_CLOUD:
         return {
