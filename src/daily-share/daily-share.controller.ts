@@ -40,8 +40,12 @@ export class DailyShareController {
   @Get()
   @ApiOperation({ summary: '전체 게시글 조회', description: '전체 게시글 목록을 가져옵니다.' })
   @ApiResponse({ status: 200, description: '조회 성공' })
+  // findAll() {
+  //   return this.dailyShareService.findAll();
+  // }
   findAll() {
-    return this.dailyShareService.findAll();
+    const data = this.dailyShareService.findAll();
+    return { posts: data };
   }
 
   @Get(':id')
