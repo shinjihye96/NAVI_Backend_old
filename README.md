@@ -1,29 +1,38 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🦋 NAVI Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+소아암 환우와 보호자를 위한 심리사회적 지지 커뮤니티 플랫폼
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 기술 스택
 
-## AI랑 같이 Backend 구현하기
-[관련 내용] https://rich-yumberry-c88.notion.site/AI-Backend-1e0b35afb40b805aa6aff1d14ebe36bf?pvs=4
+- **Framework**: NestJS + TypeScript
+- **Database**: PostgreSQL (Supabase)
+- **ORM**: TypeORM
+- **Auth**: JWT
 
------
+## 주요 기능
 
-# 소아암 환우 커뮤니티 서비스 | NAVI BackEnd
+- **하루공유**: 매일 기분 이모지 + 세줄일기 기록
+- **공감하기**: 6종 이모지 반응
+- **팔로우**: 관심 유저 팔로우/피드 구독
+
+## 실행 방법
+
+```bash
+# 패키지 설치
+npm install
+
+# 환경변수 설정
+cp .env.example .env
+
+# 서버 실행
+npm run start:dev
+```
+
+## 문서
+
+- [ERD 설계](./docs/ERD.md)
+- [API 명세서](./docs/API.md)
+
+## 관련 링크
+
+- [Frontend Repository](https://github.com/shinjihye96/NAVI)
